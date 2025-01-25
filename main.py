@@ -1,14 +1,19 @@
 import machine
-import neopixel
+import time
+from displays import display_array
+
+# Todo - Hookup Button. 
+button_pin = machine.Pin(12, machine.Pin.IN)
 
 
-# Define the GPIO pin connected to the WS2812B data line
-LED_PIN = 13  # Use GPIO 18, or change to your chosen pin
-LED_COUNT = 5  # Number of LEDs in the strip
+def main():
+    display_index = 0
+    while True:
+        display_array[display_index]()
+        print(f"Displaying {display_array[display_index].__name__}")
+        display_index = (display_index + 1) % len(display_array)
+        time.sleep(1)
 
-# Create a neopixel object
-pin = machine.Pin(LED_PIN, machine.Pin.OUT)
-strip = neopixel.NeoPixel(pin, LED_COUNT)
 
-strip[0] = (0, 255, 0)
-strip.write()
+if __name__ == "__main__":
+    main()
