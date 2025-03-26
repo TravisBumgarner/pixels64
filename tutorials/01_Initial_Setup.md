@@ -86,4 +86,18 @@ Mark the first LED that lights up as `0` and complete until done.
 
 Now, starting from the top left, write the numbers of the LEDs in a left to right top to bottom order in the config.py file, replacing the variable `LOOKUP`.
 
+## Troubleshooting
 
+- Get a list of connected devices 
+    - `ls /dev/cu.* /dev/tty.*`
+    - The desired device should look something like `tty.usbserial-0001`
+- Get a terminal to esp32 
+    - `mpremote`
+- Send file to esp32 
+    - `ampy --port /dev/tty.usbserial-0001 put boot.py`
+    - If `put` fails, reconnect device.
+    - Push button with "en" to launch code. 
+- Remove a file
+    - `ampy --port /dev/tty.usbserial-0001 rm boot.py`
+- List files
+    - `ampy --port /dev/tty.usbserial-0001 ls`
