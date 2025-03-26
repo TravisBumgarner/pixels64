@@ -1,26 +1,11 @@
-import machine
-import time
-import neopixel
-from config import LOOKUP
-
-NEO_PIXEL_PIN = 13
-NEO_PIXEL_COUNT = 64
-
-neo_pin = machine.Pin(NEO_PIXEL_PIN, machine.Pin.OUT)
-np = neopixel.NeoPixel(neo_pin, NEO_PIXEL_COUNT)
-
-
-def set_pixel(i, r, g, b):
-    np[LOOKUP[i]] = (r, g, b)
-    np.write()
+from displays import all_displays
+import random
 
 
 def main():
-    while True:
-        for i in range(64):
-            set_pixel(i, 255, 0, 0)
-            time.sleep_ms(2000)
-            set_pixel(i, 0, 0, 0)
+    display_name = random.choice(list(all_displays.keys()))
+    print(f"Displaying {display_name}")
+    all_displays[display_name]()
 
 
 if __name__ == "__main__":
