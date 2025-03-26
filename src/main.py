@@ -1,6 +1,7 @@
 import machine
 import time
 import neopixel
+from config import LOOKUP
 
 NEO_PIXEL_PIN = 13
 NEO_PIXEL_COUNT = 64
@@ -10,7 +11,7 @@ np = neopixel.NeoPixel(neo_pin, NEO_PIXEL_COUNT)
 
 
 def set_pixel(i, r, g, b):
-    np[i] = (r, g, b)
+    np[LOOKUP[i]] = (r, g, b)
     np.write()
 
 
