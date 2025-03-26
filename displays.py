@@ -1,36 +1,19 @@
-import machine
-import neopixel
-
-LED_PIN = 13
-LED_COUNT = 64
-led_pin = machine.Pin(LED_PIN, machine.Pin.OUT)
-strip = neopixel.NeoPixel(led_pin, LED_COUNT)
+from config import LOOKUP
 
 
-# Todo - replace this with custom mapping once LED order is known.
-LED_MAPPING = {i: i for i in range(LED_COUNT)}
-
-
-def display_all_yellow():
-    for i in range(LED_COUNT):
-        strip[LED_MAPPING[i]] = (255, 255, 0)
+def display_all_yellow(strip):
+    for i in range(len(LOOKUP)):
+        strip[LOOKUP[i]] = (255, 255, 0)
     strip.write()
 
 
-def display_all_green():
-    for i in range(LED_COUNT):
-        strip[LED_MAPPING[i]] = (0, 255, 0)
+def display_all_green(strip):
+    for i in range(len):
+        strip[LOOKUP[i]] = (0, 255, 0)
     strip.write()
 
 
-def display_all_blue():
-    for i in range(LED_COUNT):
-        strip[LED_MAPPING[i]] = (0, 0, 255)
+def display_all_blue(strip):
+    for i in range(len):
+        strip[LOOKUP[i]] = (0, 0, 255)
     strip.write()
-
-
-display_array = [
-    display_all_yellow,
-    display_all_green,
-    display_all_blue,
-]
