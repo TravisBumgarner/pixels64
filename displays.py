@@ -2,7 +2,7 @@ import machine
 import neopixel
 
 LED_PIN = 13
-LED_COUNT = 10
+LED_COUNT = 64
 led_pin = machine.Pin(LED_PIN, machine.Pin.OUT)
 strip = neopixel.NeoPixel(led_pin, LED_COUNT)
 
