@@ -1,6 +1,6 @@
 # Pixels64
 
-An 8x8 grid of 64 individually addressable RGB LEDs using the WS2812B package. Pixels64 is controlled by the esp32 running CircuitPython and the `neopixel` library. A 3D-printable housing is included.
+Pixels64 is an 8x8 grid of 64 individually addressable RGB LEDs using the WS2812B package. It’s powered by an ESP32 running CircuitPython with the neopixel library for control. It features a custom-designed circuit board and a 3D-printable housing.
 
 (Need help? [Join the community](https://discord.com/invite/J8jwMxEEff)!)
 
