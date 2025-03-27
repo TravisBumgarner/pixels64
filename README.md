@@ -4,7 +4,7 @@ An 8x8 grid of 64 individually addressable RGB LEDs using the WS2812B package. P
 
 (Need help? [Join the community](https://discord.com/invite/J8jwMxEEff)!)
 
-![Logo](docs/logo.png)
+![Logo](logo.png)
 
 This repository includes all the files needed to build the Pixel64 display. 
 - `cad` - 3D models for housing
