@@ -1,17 +1,16 @@
 # Pixels64
 
-This repo is very much a work in progress. 
+An 8x8 grid of 64 individually addressable RGB LEDs using the WS2812B package. Pixels64 is controlled by CircuitPython and the `neopixel` library. A 3D-printable housing is included. For full documentation, check out the [Setup Tutorial](docs/SETUP.md).
 
 ![Logo](docs/logo.png)
 
-3D models, PCB diagram and schematic, and code for controlling a two dimensional array of 64 individually addressable RGB LEDs. 
+This repository contains:
+- 3D models for housing
+- PCB diagram and schematic
+- Code for controlling a two-dimensional array of 64 RGB LEDs
 
-## Choose your own journey
+**Choose Your Path**
 
-### Follow Along
+This repository includes all the files needed to build the Pixel64 display. 
 
-This repository offers a starting point for a project that uses a 8x8 grid of 64 individually addressable RGB LEDs. This includes CAD files for both 3D printing and PCB manufacturing, as well as the code to control the LEDs.
-
-### Build your own
-
-The PCB is designed so that it can be combined in any combination of N by M boards. 
+The PCB is designed to be modular, allowing multiple boards to be combined in an N x M configuration for any display size.
