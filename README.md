@@ -11,6 +11,9 @@ This repository includes all the files needed to build the Pixel64 display.
 - `circuit` - PCB diagram and schematic
 - `code` - Code for showing various displays
 
+Additionally
+- `my_displays` - What I am currently tinkering on to display. 
+
 The PCB is designed to be modular, allowing multiple boards to be combined in an N x M configuration for any display size.
 
 ## Setup
