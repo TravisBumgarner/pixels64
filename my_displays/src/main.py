@@ -1,6 +1,6 @@
-from displays import all_displays
 import os
 
+from display_random_pulses_towards_color import all_displays
 LAST_DISPLAY_FILE = "last_display.txt"
 
 

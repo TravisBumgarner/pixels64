@@ -5,3 +5,4 @@ for file in src/*.py; do
     ampy --port /dev/tty.usbserial-0001 put $file
 done
 
+

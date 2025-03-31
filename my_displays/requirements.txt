@@ -1,4 +1,5 @@
 adafruit-ampy==1.1.0
 click==8.1.8
+mpremote==1.24.1
 pyserial==3.5
 python-dotenv==1.1.0

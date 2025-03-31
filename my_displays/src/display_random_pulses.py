@@ -47,7 +47,7 @@ def display_random_pulses():
             np.write()
 
 
-# Update all_displays
+# Currently doing just one display
 all_displays = {
     "random_pulses": display_random_pulses,
 }
