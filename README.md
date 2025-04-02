@@ -10,6 +10,7 @@ This repository includes all the files needed to build the Pixel64 display.
 - `cad` - 3D models for housing
 - `circuit` - PCB diagram and schematic
 - `code` - Code for showing various displays
+- `displays` Collection of displays to get inspired. [Check them out on Instagram](https://www.instagram.com/pixelssixtyfour/).
 
 Additionally
 - `my_displays` - What I am currently tinkering on to display. 
