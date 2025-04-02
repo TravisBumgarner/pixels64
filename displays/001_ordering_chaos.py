@@ -30,24 +30,46 @@ def interpolate_colors(current_color, target_color, steps=5, delay=0.05):
         time.sleep(delay)
 
 
-def display_random_pulses():
+def fisher_yates_shuffle(arr):
+    for i in range(len(arr) - 1, 0, -1):
+        j = random.randint(0, i)
+        arr[i], arr[j] = arr[j], arr[i]
+
+
+def shuffled_array(n):
+    arr = list(range(n))
+    fisher_yates_shuffle(arr)
+    return arr
+
+
+def display_random_pulses_towards_color():
+    target_color = (
+        random.randint(0, 255),
+        random.randint(0, 255),
+        random.randint(0, 255),
+    )
     fill_with_random_colors()
 
     while True:
-        random_index = random.choice(LOOKUP)
-        current_color = np[random_index]
-        random_color = (
+        sequence = shuffled_array(len(LOOKUP))
+        for i in sequence[: len(sequence) // 2]:  # Only first half
+            current_color = np[LOOKUP[i]]
+            new_color = tuple(
+                int(current + (target - current) * 0.7)
+                for current, target in zip(current_color, target_color)
+            )
+            np[LOOKUP[i]] = new_color
+            np.write()
+            time.sleep(0.1)
+
+        target_color = (
             random.randint(0, 255),
             random.randint(0, 255),
             random.randint(0, 255),
         )
 
-        for color in interpolate_colors(current_color, random_color):
-            np[random_index] = color
-            np.write()
 
-
-# Update all_displays
+# Currently doing just one display
 all_displays = {
-    "random_pulses": display_random_pulses,
+    "random_pulses": display_random_pulses_towards_color,
 }
