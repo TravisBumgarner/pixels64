@@ -1,6 +1,7 @@
 import os
+import time
 
-from display_color_palettes import all_displays
+from display_random_pulses import all_displays
 
 LAST_DISPLAY_FILE = "last_display.txt"
 
@@ -33,7 +34,16 @@ def main():
 
     print(f"Displaying {display_name}")
     save_last_display(display_name)
+
+    # Run the display function once
     all_displays[display_name]()
+
+    # If we want to keep the display running, we can add a loop here
+    # This will allow the script to continue after uploading files
+    while True:
+        time.sleep(60 * 15)  # Sleep for 15 minutes
+        # Optionally refresh the display
+        all_displays[display_name]()
 
 
 if __name__ == "__main__":
