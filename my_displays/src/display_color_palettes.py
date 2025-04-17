@@ -1,13 +1,12 @@
 import random
+import time
 
 import machine
 import neopixel
-import time
-
 from config import LOOKUP
 
 NEO_PIXEL_PIN = 13
-NEO_PIXEL_COUNT = 64
+NEO_PIXEL_COUNT = 16
 
 neo_pin = machine.Pin(NEO_PIXEL_PIN, machine.Pin.OUT)
 np = neopixel.NeoPixel(neo_pin, NEO_PIXEL_COUNT)
@@ -301,10 +300,9 @@ def hex_to_rgb(hex_color):
 
 
 def display_color_palettes():
-    palette_index = 0
-    # Todo load palettes
-
     while True:
+        # Use random palette index instead of sequential
+        palette_index = random.randint(0, len(PALETTES) - 1)
         rgb_palette = [hex_to_rgb(color) for color in PALETTES[palette_index]]
         grid = build_color_grid(rgb_palette)
 
@@ -314,8 +312,7 @@ def display_color_palettes():
                 np[lookup_index] = rgb_palette[value]
         np.write()
 
-        time.sleep(60 * 15)
-        palette_index += 1
+        time.sleep(60 * 1)
 
 
 # Currently doing just one display
