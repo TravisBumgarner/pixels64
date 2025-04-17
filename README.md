@@ -61,6 +61,10 @@ The PCB is designed to be modular, allowing multiple boards to be combined in an
 1. Setup virtual environment `python -m venv venv` inside the code directory
 1. Use virtual environment `source venv/bin/activate
 1. Install dependencies `pip install -r requirements.txt`
+1. Setup device
+    1. Wipe device `esptool.py --chip esp32 --port [device] erase_flash`
+    1. [Download MicroPython](https://micropython.org/download/ESP32_GENERIC/) - Your device may be different.
+    1. `esptool.py --chip esp32 --port [device] --baud 460800 write_flash -z 0x1000 file.uf2`
 1. Run `write.sh` script to upload files to device.
 1. Pres the `en` button to shuffle the displays. 
 
