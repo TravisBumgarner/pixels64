@@ -1,6 +1,6 @@
 from collections import OrderedDict
 
-
+from display_images import display_images
 from chat_gpt import (
     display_dual_chase,
 )
