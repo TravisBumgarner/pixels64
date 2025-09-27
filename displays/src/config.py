@@ -1,4 +1,5 @@
-#  New Display
+# Check README.md for information on how to configure your display.
+
 LOOKUP = [
     0,
     1,
@@ -65,16 +66,3 @@ LOOKUP = [
     62,
     63,
 ]
-
-# 2D mapping for easier coordinate-based access (8x8 grid)
-GRID_SIZE = 8
-LOOKUP_2D = [
-    LOOKUP[row * GRID_SIZE : (row + 1) * GRID_SIZE] for row in range(GRID_SIZE)
-]
-
-
-def get_led_index(row, col):
-    """Helper function to get LED index from 2D coordinates (0-7, 0-7)"""
-    if 0 <= row < 8 and 0 <= col < 8:
-        return LOOKUP_2D[row][col]
-    return None

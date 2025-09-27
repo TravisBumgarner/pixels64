@@ -1,7 +1,37 @@
-import os
-import time
+from chat_gpt import (
+    display_band_pulse,
+    display_checker_pulse,
+    display_dual_chase,
+    display_noise_drift,
+    display_wave_weave,
+)
+from chat_gpt2 import (
+    display_voronoi_ripple,
+    display_spiral_scan,
+    display_diagonal_wave,
+    display_hilbert_wave,
+    display_jpeg_zigzag,
+    display_morton_weave,
+)
+from display_gradient_squares import display_gradient_squares
+from display_zigzag import display_zigzag
 
-from display_random_pulses import all_displays
+
+displays_to_run = {
+    "band_pulse": display_band_pulse,
+    "checker_pulse": display_checker_pulse,
+    "dual_chase": display_dual_chase,
+    "noise_drift": display_noise_drift,
+    "wave_weave": display_wave_weave,
+    "voronoi_ripple": display_voronoi_ripple,
+    "spiral_scan": display_spiral_scan,
+    "diagonal_wave": display_diagonal_wave,
+    "hilbert_wave": display_hilbert_wave,
+    "jpeg_zigzag": display_jpeg_zigzag,
+    "morton_weave": display_morton_weave,
+    "gradient_squares": display_gradient_squares,
+    "zigzag": display_zigzag,
+}
 
 LAST_DISPLAY_FILE = "last_display.txt"
 
@@ -20,7 +50,7 @@ def get_last_display():
 
 
 def get_next_display(current):
-    displays = list(all_displays.keys())
+    displays = list(displays_to_run.keys())
     if not current or current not in displays:
         return displays[0]
     current_idx = displays.index(current)
@@ -29,21 +59,14 @@ def get_next_display(current):
 
 
 def main():
+    # Power cycle device to get next display
     last_display = get_last_display()
     display_name = get_next_display(last_display)
 
     print(f"Displaying {display_name}")
     save_last_display(display_name)
 
-    # Run the display function once
-    all_displays[display_name]()
-
-    # If we want to keep the display running, we can add a loop here
-    # This will allow the script to continue after uploading files
-    while True:
-        time.sleep(60 * 15)  # Sleep for 15 minutes
-        # Optionally refresh the display
-        all_displays[display_name]()
+    displays_to_run[display_name]()
 
 
 if __name__ == "__main__":

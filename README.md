@@ -6,14 +6,16 @@ Pixels64 is an 8x8 grid of 64 individually addressable RGB LEDs using the WS2812
 
 ![Logo](logo.jpg)
 
-This repository includes all the files needed to build the Pixel64 display. 
+This repository includes all the files needed to build the Pixel64 display.
+
 - `cad` - 3D models for housing
 - `circuit` - PCB diagram and schematic
 - `code` - Code for showing various displays
 - `displays` Collection of displays to get inspired. [Check them out on Instagram](https://www.instagram.com/pixelssixtyfour/).
 
 Additionally
-- `my_displays` - What I am currently tinkering on to display. 
+
+- `my_displays` - What I am currently tinkering on to display.
 
 The PCB is designed to be modular, allowing multiple boards to be combined in an N x M configuration for any display size.
 
@@ -24,7 +26,7 @@ The PCB is designed to be modular, allowing multiple boards to be combined in an
 - Wire cutters
 - Soldering Iron
 
-### Components 
+### Components
 
 - esp32
 - Three different colors of wire (Red, Black, Blue)
@@ -39,35 +41,34 @@ The PCB is designed to be modular, allowing multiple boards to be combined in an
 1. Print `base-plate.stl` and `walls.stl` in black. Print `case.stl` in white.
 1. Upload files in `jlcpcb` and order from JLCPCB
 1. Cut wire to length
-    - 3x 25mm Red
-    - 3x 25mm Blue
-    - 3x 25mm Black
-    - 1x 12mm Red
-    - 1x 12mm Blue
-    - 1x 12mm Black
-1. Solder boards together. 
-    - Blue (data) goes to the center pad. Red (power) to the square pad. Black (power) to the circle pad. 
-    - Solder the short wires to the `DataIn1` of the first PCB. 
-    - Solder the long wires from `Dataout1` to the `DataIn1` of the next PCB.
-    - Repeat the previous step two more times.
-1. Use a soldering iron to press fit the brass knurled nuts into the risers on the `base-plate.stl`. 
-1. Screw in the boards. 
-    - Note that all of the boards are oriented with `DataIn1` at the bottom. 
-    - The arrangement of boards is
-    ```
-    3 4
-    1 2
-    ```
+   - 3x 25mm Red
+   - 3x 25mm Blue
+   - 3x 25mm Black
+   - 1x 12mm Red
+   - 1x 12mm Blue
+   - 1x 12mm Black
+1. Solder boards together.
+   - Blue (data) goes to the center pad. Red (power) to the square pad. Black (power) to the circle pad.
+   - Solder the short wires to the `DataIn1` of the first PCB.
+   - Solder the long wires from `Dataout1` to the `DataIn1` of the next PCB.
+   - Repeat the previous step two more times.
+1. Use a soldering iron to press fit the brass knurled nuts into the risers on the `base-plate.stl`.
+1. Screw in the boards.
+   - Note that all of the boards are oriented with `DataIn1` at the bottom.
+   - The arrangement of boards is
+   ```
+   3 4
+   1 2
+   ```
 1. Setup virtual environment `python -m venv venv` inside the code directory
 1. Use virtual environment `source venv/bin/activate
 1. Install dependencies `pip install -r requirements.txt`
 1. Setup device
-    1. Wipe device `esptool.py --chip esp32 --port [device] erase_flash`
-    1. [Download MicroPython](https://micropython.org/download/ESP32_GENERIC/) - Your device may be different.
-    1. `esptool.py --chip esp32 --port [device] --baud 460800 write_flash -z 0x1000 file.uf2`
+   1. Wipe device `esptool.py --chip esp32 --port [device] erase_flash`
+   1. [Download MicroPython](https://micropython.org/download/ESP32_GENERIC/) - Your device may be different.
+   1. `esptool.py --chip esp32 --port [device] --baud 460800 write_flash -z 0x1000 file.uf2`
 1. Run `write.sh` script to upload files to device.
-1. Pres the `en` button to shuffle the displays. 
-
+1. Pres the `en` button to shuffle the displays.
 
 ## Additional Notes
 
@@ -77,26 +78,27 @@ The PCB is designed to be modular, allowing multiple boards to be combined in an
 
 - The `case.stl` services as the "screen" of the pixel64. It can be challenging to get a clean print of such a size. You'll need very good first layer adhesion. An alternative here would be to make a case out of white acrylic instead or cover the walls with a white sheet of paper.
 
-
 ### Code
 
 #### Useful commands
 
-- Get a list of connected devices 
-    - `ls /dev/cu.* /dev/tty.*`
-    - The desired device should look something like `tty.usbserial-0001`
-- Get a terminal to esp32 
-    - `mpremote`
-    - Note - you can't use the `print` statement while uploading code.
-    - Be sure to setup your Python virtual environment before running `mpremote`. 
-- Send file to esp32 
-    - `ampy --port /dev/tty.usbserial-0001 put boot.py`
-    - If `put` fails, reconnect device.
-    - Push button with "en" to launch code. 
+- Get a list of connected devices
+  - `ls /dev/cu.* /dev/tty.*`
+  - The desired device should look something like `tty.usbserial-0001`
+- Get a terminal to esp32
+  - `mpremote`
+  - Note - you can't use the `print` statement while uploading code.
+  - Be sure to setup your Python virtual environment before running `mpremote`.
+  - `ctrl + ]` to exit
+  - `ctrl + c` and `ctrl + d` to soft reboot and cycle through displays.
+- Send file to esp32
+  - `ampy --port /dev/tty.usbserial-0001 put boot.py`
+  - If `put` fails, reconnect device.
+  - Push button with "en" to launch code.
 - Remove a file
-    - `ampy --port /dev/tty.usbserial-0001 rm boot.py`
+  - `ampy --port /dev/tty.usbserial-0001 rm boot.py`
 - List files
-    - `ampy --port /dev/tty.usbserial-0001 ls`
+  - `ampy --port /dev/tty.usbserial-0001 ls`
 
 ### Circuit
 
@@ -107,11 +109,12 @@ The LED circuit board I designed supports multiple configurations, meaning the d
 This script cycles through each pixel one at a time, allowing you to determine the actual order. Once identified, we can remap the ordering. For example, the physical layout might be:
 
 ```
- 3  2  1  0  
+ 3  2  1  0
  7  6  5  4
 11 10  9  8
 15 14 13 12
 ```
+
 We can then transform it into a more intuitive sequence:
 
 ```
@@ -120,9 +123,11 @@ We can then transform it into a more intuitive sequence:
  8  9 10 11
 12 13 14 15
 ```
+
 This remapping ensures easier indexing and consistent control over the LEDs.
 
 Take the following code and save it to `main.py`
+
 ```
 import machine
 import time
@@ -154,6 +159,7 @@ if __name__ == "__main__":
 ```
 
 Upload the code to the esp32
+
 ```
 ampy --port [replace with your device] put main.py
 ```
@@ -167,5 +173,3 @@ You should see the LEDs light up in a red color.
 Mark the first LED that lights up as `0` and complete until done.
 
 Now, starting from the top left, write the numbers of the LEDs in a left to right top to bottom order in the config.py file, replacing the variable `LOOKUP`.
-
-
