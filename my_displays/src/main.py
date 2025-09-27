@@ -19,14 +19,14 @@ from display_zigzag import display_zigzag
 displays_to_run = OrderedDict(
     {
         "dual_chase": display_dual_chase,
-        "voronoi_ripple": display_voronoi_ripple,
-        "spiral_scan": display_spiral_scan,
-        "diagonal_wave": display_diagonal_wave,
-        "hilbert_wave": display_hilbert_wave,
-        "jpeg_zigzag": display_jpeg_zigzag,
-        "morton_weave": display_morton_weave,
-        "gradient_squares": display_gradient_squares,
-        "zigzag": display_zigzag,
+        # "voronoi_ripple": display_voronoi_ripple,
+        # "spiral_scan": display_spiral_scan,
+        # "diagonal_wave": display_diagonal_wave,
+        # "hilbert_wave": display_hilbert_wave,
+        # "jpeg_zigzag": display_jpeg_zigzag,
+        # "morton_weave": display_morton_weave,
+        # "gradient_squares": display_gradient_squares,
+        # "zigzag": display_zigzag,
     }
 )
 
