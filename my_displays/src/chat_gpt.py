@@ -93,4 +93,4 @@ def display_dual_chase():
             # keep the same indices so heads continue from analogous positions in the new path
 
         np.write()
-        time.sleep(0.05)
+        time.sleep(0.15)
