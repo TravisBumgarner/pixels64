@@ -3,9 +3,7 @@ import time
 import machine
 import neopixel
 import random
-
-NEO_PIXEL_PIN = 13
-NEO_PIXEL_COUNT = 64
+from common import NEO_PIXEL_PIN, NEO_PIXEL_COUNT
 
 neo_pin = machine.Pin(NEO_PIXEL_PIN, machine.Pin.OUT)
 np = neopixel.NeoPixel(neo_pin, NEO_PIXEL_COUNT)
@@ -69,7 +67,5 @@ def display_random_pulses_towards_color():
         )
 
 
-# Currently doing just one display
-all_displays = {
-    "random_pulses": display_random_pulses_towards_color,
-}
+if __name__ == "__main__":
+    display_random_pulses_towards_color()

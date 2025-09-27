@@ -3,7 +3,9 @@ import time
 import machine
 import neopixel
 import random
-from common import NEO_PIXEL_PIN, NEO_PIXEL_COUNT
+
+NEO_PIXEL_PIN = 13
+NEO_PIXEL_COUNT = 64
 
 neo_pin = machine.Pin(NEO_PIXEL_PIN, machine.Pin.OUT)
 np = neopixel.NeoPixel(neo_pin, NEO_PIXEL_COUNT)

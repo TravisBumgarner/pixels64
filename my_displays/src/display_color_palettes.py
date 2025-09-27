@@ -4,9 +4,7 @@ import time
 import machine
 import neopixel
 from config import LOOKUP
-
-NEO_PIXEL_PIN = 13
-NEO_PIXEL_COUNT = 16
+from common import NEO_PIXEL_COUNT, NEO_PIXEL_PIN
 
 neo_pin = machine.Pin(NEO_PIXEL_PIN, machine.Pin.OUT)
 np = neopixel.NeoPixel(neo_pin, NEO_PIXEL_COUNT)
@@ -267,7 +265,6 @@ def build_color_grid(PALETTE):
             has_expanded = False
 
             for direction in DIRECTIONS:
-
                 valid_points = get_valid_points_for_direction(grid, cluster, direction)
 
                 if len(valid_points) == get_number_of_valid_points_needed(
@@ -312,13 +309,8 @@ def display_color_palettes():
                 np[lookup_index] = rgb_palette[value]
         np.write()
 
-        time.sleep(60 * 1)
+        time.sleep(15)
 
-
-# Currently doing just one display
-all_displays = {
-    "color_palettes": display_color_palettes,
-}
 
 if __name__ == "__main__":
     display_color_palettes()

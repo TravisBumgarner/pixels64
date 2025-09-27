@@ -1,8 +1,18 @@
 Check out the displays on Instagram: [pixelssixtyfour](https://www.instagram.com/pixelssixtyfour/).
 
-# 001_ordering_chaos.py
+# Displays
 
-Start with all random colors. At each step, half the lights are chosen at random and transition 70% of the way towards a new random color. Once the transition is complete, a new target color is selected, and the cycle repeats.
+## display_gradient_squares
 
-002
+1. Fill display with 2x2 squares of random colors.
+1. Repeat:
+   1. Pick a random square
+   1. Set a target color
+   1. Create a gradient from current color to target color.
 
+## display_random_pulses
+
+1. Fill display with 1x1 squares of random colors.
+1. Repeat:
+   1. Pick a random square
+   1. Set square to random color

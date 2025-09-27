@@ -1,36 +1,13 @@
-from collections import OrderedDict
-
-from display_images import display_images
-from chat_gpt import (
-    display_dual_chase,
-)
-from chat_gpt2 import (
-    display_voronoi_ripple,
-    display_spiral_scan,
-    display_diagonal_wave,
-    display_hilbert_wave,
-    display_jpeg_zigzag,
-    display_morton_weave,
-)
 from display_gradient_squares import display_gradient_squares
-from display_zigzag import display_zigzag
+from display_random_pulses import display_random_pulses
 
-
-displays_to_run = OrderedDict(
-    {
-        "dual_chase": display_dual_chase,
-        "voronoi_ripple": display_voronoi_ripple,
-        "spiral_scan": display_spiral_scan,
-        "diagonal_wave": display_diagonal_wave,
-        "hilbert_wave": display_hilbert_wave,
-        "jpeg_zigzag": display_jpeg_zigzag,
-        "morton_weave": display_morton_weave,
-        "gradient_squares": display_gradient_squares,
-        "zigzag": display_zigzag,
-    }
-)
 
 LAST_DISPLAY_FILE = "last_display.txt"
+
+displays_to_run = {
+    "random_pulses": display_random_pulses,
+    "display_gradient_squares": display_gradient_squares,
+}
 
 
 def save_last_display(name):
