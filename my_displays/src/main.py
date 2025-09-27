@@ -1,9 +1,8 @@
+from collections import OrderedDict
+
+
 from chat_gpt import (
-    display_band_pulse,
-    display_checker_pulse,
     display_dual_chase,
-    display_noise_drift,
-    display_wave_weave,
 )
 from chat_gpt2 import (
     display_voronoi_ripple,
@@ -17,21 +16,19 @@ from display_gradient_squares import display_gradient_squares
 from display_zigzag import display_zigzag
 
 
-displays_to_run = {
-    "band_pulse": display_band_pulse,
-    "checker_pulse": display_checker_pulse,
-    "dual_chase": display_dual_chase,
-    "noise_drift": display_noise_drift,
-    "wave_weave": display_wave_weave,
-    "voronoi_ripple": display_voronoi_ripple,
-    "spiral_scan": display_spiral_scan,
-    "diagonal_wave": display_diagonal_wave,
-    "hilbert_wave": display_hilbert_wave,
-    "jpeg_zigzag": display_jpeg_zigzag,
-    "morton_weave": display_morton_weave,
-    "gradient_squares": display_gradient_squares,
-    "zigzag": display_zigzag,
-}
+displays_to_run = OrderedDict(
+    {
+        "dual_chase": display_dual_chase,
+        "voronoi_ripple": display_voronoi_ripple,
+        "spiral_scan": display_spiral_scan,
+        "diagonal_wave": display_diagonal_wave,
+        "hilbert_wave": display_hilbert_wave,
+        "jpeg_zigzag": display_jpeg_zigzag,
+        "morton_weave": display_morton_weave,
+        "gradient_squares": display_gradient_squares,
+        "zigzag": display_zigzag,
+    }
+)
 
 LAST_DISPLAY_FILE = "last_display.txt"
 

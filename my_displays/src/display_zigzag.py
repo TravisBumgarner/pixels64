@@ -65,7 +65,7 @@ def display_zigzag():
             x, y = next(path)
             np[get_led_index(y, x)] = color
             np.write()
-            time.sleep(0.05)
+            time.sleep(0.20)
 
         current_color = target_color
 

@@ -89,7 +89,7 @@ def display_hilbert_wave():
         k = (k + 1) % len(path)
         base = (base + 0.002) % 1.0
         np.write()
-        time.sleep(0.06)
+        time.sleep(0.20)
 
 
 # 12) Morton Weave (Z-order path)
@@ -115,7 +115,7 @@ def display_morton_weave():
         k = (k + 1) % len(path)
         hue = (hue + 0.002) % 1.0
         np.write()
-        time.sleep(0.05)
+        time.sleep(0.20)
 
 
 # 13) Spiral Scan (center outward), gradient along index
@@ -182,7 +182,7 @@ def display_jpeg_zigzag():
         k = (k + 1) % len(order)
         hue = (hue + 0.002) % 1.0
         np.write()
-        time.sleep(0.05)
+        time.sleep(0.20)
 
 
 # 15) Diagonal Wave (sum over anti-/main diagonals)
