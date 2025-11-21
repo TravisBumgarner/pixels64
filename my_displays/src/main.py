@@ -1,24 +1,26 @@
 from collections import OrderedDict
 
-from display_images import display_images
-from chat_gpt import (
-    display_dual_chase,
-)
-from chat_gpt2 import (
-    display_voronoi_ripple,
-    display_spiral_scan,
-    display_diagonal_wave,
-    display_hilbert_wave,
-    display_jpeg_zigzag,
-    display_morton_weave,
-)
-from display_gradient_squares import display_gradient_squares
-from display_zigzag import display_zigzag
+# from display_images import display_images
+# from chat_gpt import (
+#     display_dual_chase,
+# )
+# from chat_gpt2 import (
+#     display_voronoi_ripple,
+#     display_spiral_scan,
+#     display_diagonal_wave,
+#     display_hilbert_wave,
+#     display_jpeg_zigzag,
+#     display_morton_weave,
+# )
+# from display_gradient_squares import display_gradient_squares
+# from display_zigzag import display_zigzag
+from display_christmas_squares import display_christmas_squares
 
 
 displays_to_run = OrderedDict(
     {
-        "dual_chase": display_dual_chase,
+        "christmas_squares": display_christmas_squares,
+        # "dual_chase": display_dual_chase,
         # "voronoi_ripple": display_voronoi_ripple,
         # "spiral_scan": display_spiral_scan,
         # "diagonal_wave": display_diagonal_wave,
