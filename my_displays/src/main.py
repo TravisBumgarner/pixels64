@@ -14,12 +14,12 @@ from collections import OrderedDict
 # )
 # from display_gradient_squares import display_gradient_squares
 # from display_zigzag import display_zigzag
-from display_christmas_squares import display_christmas_squares
+from display_gradient_squares import display_gradient_squares
 
 
 displays_to_run = OrderedDict(
     {
-        "christmas_squares": display_christmas_squares,
+        "display_gradient_squares": display_gradient_squares,
         # "dual_chase": display_dual_chase,
         # "voronoi_ripple": display_voronoi_ripple,
         # "spiral_scan": display_spiral_scan,
