@@ -14,7 +14,7 @@ from collections import OrderedDict
 # )
 # from display_gradient_squares import display_gradient_squares
 # from display_zigzag import display_zigzag
-from display_gradient_squares import display_gradient_squares
+from display_christmas_squares import display_gradient_squares
 
 
 displays_to_run = OrderedDict(
