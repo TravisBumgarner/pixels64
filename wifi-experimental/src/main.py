@@ -12,6 +12,8 @@ import presets
 
 PIN = 13
 COUNT = 64
+IDLE_MS = 30000
+ACTIVE_FILE = "active.json"
 
 np = rmt_neopixel.NeoPixel(machine.Pin(PIN, machine.Pin.OUT), COUNT)
 
@@ -22,7 +24,33 @@ state = {
     "last_tick": 0,
     "error": "",
     "tick_ms": 120,
+    "last_activity": time.ticks_ms(),
+    "dark": False,
+    "custom_code": "",
 }
+
+
+def mark_activity():
+    state["last_activity"] = time.ticks_ms()
+
+
+def save_active():
+    payload = {"name": state["name"]}
+    if state["name"] == "custom":
+        payload["code"] = state["custom_code"]
+    try:
+        with open(ACTIVE_FILE, "w") as f:
+            json.dump(payload, f)
+    except Exception as e:
+        print("save_active err:", e)
+
+
+def load_active():
+    try:
+        with open(ACTIVE_FILE, "r") as f:
+            return json.load(f)
+    except:
+        return None
 
 
 def clear():
@@ -45,13 +73,15 @@ def set_pixel(grid_idx, r, g, b):
 def stop_animation():
     state["fn"] = None
     state["name"] = "off"
+    state["custom_code"] = ""
 
 
-def start_preset(name):
+def start_preset(name, persist=True):
     if name == "off":
         stop_animation()
         clear()
         state["error"] = ""
+        if persist: save_active()
         return True, ""
     cls = presets.PRESETS.get(name)
     if cls is None:
@@ -66,10 +96,12 @@ def start_preset(name):
     state["name"] = name
     state["frame"] = 0
     state["error"] = ""
+    state["custom_code"] = ""
+    if persist: save_active()
     return True, ""
 
 
-def install_custom(code):
+def install_custom(code, persist=True):
     ns = {
         "math": math,
         "random": random,
@@ -90,6 +122,8 @@ def install_custom(code):
     state["name"] = "custom"
     state["frame"] = 0
     state["error"] = ""
+    state["custom_code"] = code
+    if persist: save_active()
     return True, ""
 
 
@@ -279,7 +313,7 @@ async function refreshState(){
   }catch(e){}
 }
 refreshState();
-setInterval(refreshState,1500);
+setInterval(refreshState,5000);
 </script></body></html>
 """
 
@@ -328,6 +362,8 @@ def handle(cl):
     method, path, body = read_req(cl)
     if method is None:
         return
+    mark_activity()
+    state["dark"] = False
     if method == b"GET" and path == b"/":
         send(cl, b"200 OK", HTML, b"text/html")
     elif method == b"GET" and path == b"/state":
@@ -407,6 +443,16 @@ def handle(cl):
 
 clear()
 
+saved = load_active()
+if saved:
+    try:
+        if saved.get("name") == "custom" and saved.get("code"):
+            install_custom(saved["code"], persist=False)
+        elif saved.get("name") and saved["name"] != "off":
+            start_preset(saved["name"], persist=False)
+    except Exception as e:
+        print("restore err:", e)
+
 addr = socket.getaddrinfo("0.0.0.0", 80)[0][-1]
 srv = socket.socket()
 srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -420,11 +466,11 @@ poller.register(srv, select.POLLIN)
 print("SERVER_LISTENING", addr)
 
 while True:
-    if state["fn"]:
+    if state["fn"] and not state["dark"]:
         elapsed = time.ticks_diff(time.ticks_ms(), state["last_tick"])
         poll_ms = max(0, min(20, state["tick_ms"] - elapsed))
     else:
-        poll_ms = 100
+        poll_ms = 200
 
     for _ in poller.poll(poll_ms):
         try:
@@ -442,7 +488,11 @@ while True:
                 pass
         gc.collect()
 
-    if state["fn"]:
+    if not state["dark"] and time.ticks_diff(time.ticks_ms(), state["last_activity"]) > IDLE_MS:
+        state["dark"] = True
+        clear()
+
+    if state["fn"] and not state["dark"]:
         now = time.ticks_ms()
         if time.ticks_diff(now, state["last_tick"]) >= state["tick_ms"]:
             try:
