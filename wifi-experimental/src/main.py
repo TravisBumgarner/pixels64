@@ -6,6 +6,7 @@ import json
 import math
 import random
 import machine
+import network
 import rmt_neopixel
 from config import LOOKUP
 import presets
@@ -363,7 +364,6 @@ def handle(cl):
     if method is None:
         return
     mark_activity()
-    state["dark"] = False
     if method == b"GET" and path == b"/":
         send(cl, b"200 OK", HTML, b"text/html")
     elif method == b"GET" and path == b"/state":
@@ -465,34 +465,55 @@ poller.register(srv, select.POLLIN)
 
 print("SERVER_LISTENING", addr)
 
+def shutdown_network():
+    print("NETWORK_OFF (idle timeout)")
+    try:
+        poller.unregister(srv)
+    except:
+        pass
+    try:
+        srv.close()
+    except:
+        pass
+    try:
+        wlan = network.WLAN(network.STA_IF)
+        wlan.disconnect()
+        wlan.active(False)
+    except Exception as e:
+        print("wifi off err:", e)
+
+
 while True:
-    if state["fn"] and not state["dark"]:
-        elapsed = time.ticks_diff(time.ticks_ms(), state["last_tick"])
-        poll_ms = max(0, min(20, state["tick_ms"] - elapsed))
-    else:
-        poll_ms = 200
+    if not state["dark"]:
+        if state["fn"]:
+            elapsed = time.ticks_diff(time.ticks_ms(), state["last_tick"])
+            poll_ms = max(0, min(20, state["tick_ms"] - elapsed))
+        else:
+            poll_ms = 200
 
-    for _ in poller.poll(poll_ms):
-        try:
-            cl, ca = srv.accept()
-        except OSError:
-            continue
-        try:
-            handle(cl)
-        except Exception as e:
-            print("ERR", e)
-        finally:
+        for _ in poller.poll(poll_ms):
             try:
-                cl.close()
-            except:
-                pass
-        gc.collect()
+                cl, ca = srv.accept()
+            except OSError:
+                continue
+            try:
+                handle(cl)
+            except Exception as e:
+                print("ERR", e)
+            finally:
+                try:
+                    cl.close()
+                except:
+                    pass
+            gc.collect()
 
-    if not state["dark"] and time.ticks_diff(time.ticks_ms(), state["last_activity"]) > IDLE_MS:
-        state["dark"] = True
-        clear()
+        if time.ticks_diff(time.ticks_ms(), state["last_activity"]) > IDLE_MS:
+            state["dark"] = True
+            shutdown_network()
+    else:
+        time.sleep_ms(min(state["tick_ms"], 30))
 
-    if state["fn"] and not state["dark"]:
+    if state["fn"]:
         now = time.ticks_ms()
         if time.ticks_diff(now, state["last_tick"]) >= state["tick_ms"]:
             try:
@@ -505,5 +526,4 @@ while True:
                 state["name"] = "off"
                 state["error"] = "run: " + repr(e)
                 print("animate err:", e)
-                clear()
             gc.collect()
