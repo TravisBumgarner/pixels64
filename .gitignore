@@ -1,2 +1,4 @@
 venv/
 .DS_Store
+.env
+wifi-experimental/src/wifi_config.py
