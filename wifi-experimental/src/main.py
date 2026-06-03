@@ -165,6 +165,7 @@ summary{cursor:pointer;font-size:13px;color:#aaa;padding:4px 0}
     <div class="hdr">Presets</div>
     <div id="preset-buttons"></div>
     <button id="stop">Stop</button>
+    <button id="shutdown" style="margin-top:8px;background:#3a1a1a;border-color:#6a3a3a">Server off</button>
   </div>
 
   <div class="right">
@@ -250,6 +251,11 @@ document.getElementById('fil').onclick=()=>{
 document.getElementById('stop').onclick=async()=>{
   await fetch('/preset',{method:'POST',body:'off'});
   refreshState();
+};
+document.getElementById('shutdown').onclick=async()=>{
+  if(!confirm('Kill server + WiFi? Power-cycle the ESP32 to bring it back.'))return;
+  try{await fetch('/shutdown',{method:'POST'})}catch(e){}
+  status.textContent='server offline (power-cycle to reconnect)';
 };
 document.getElementById('run').onclick=async()=>{
   errEl.textContent='';
@@ -435,6 +441,15 @@ def handle(cl):
         stop_animation()
         clear()
         send(cl, b"200 OK", b"ok")
+    elif method == b"POST" and path == b"/shutdown":
+        send(cl, b"200 OK", b"bye")
+        try:
+            cl.close()
+        except:
+            pass
+        state["dark"] = True
+        shutdown_network()
+        return
     elif method == b"GET" and path == b"/ping":
         send(cl, b"200 OK", b"pong\n")
     else:
