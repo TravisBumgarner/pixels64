@@ -18,13 +18,15 @@ bluetooth-experimental/
 │   ├── boot.py       # runs on power-up; disables WiFi to free memory/radio
 │   ├── config.py     # LED index lookup tables for the panel wiring
 │   ├── presets.py    # animation classes (rainbow, chase, plasma, ...)
-│   └── main.py        # BLE GATT server + render loop
-├── web/
-│   └── index.html    # Web Bluetooth control UI (single file, no build step)
+│   └── main.py       # BLE GATT server + render loop
 ├── test_pixel.py     # minimal sanity check — lights one pixel green
-├── upload.sh         # flash src/*.py to the board via mpremote
-└── serve.sh          # serve web/ over http for the browser UI
+└── upload.sh         # flash src/*.py to the board via mpremote
 ```
+
+This directory holds only the ESP32 firmware. The Web Bluetooth control UI
+that drives the board lives in the separate
+[`rasppi-utils`](https://github.com/TravisBumgarner/rasppi-utils) repo, under
+`pixels64/` — see [Run the control UI](#run-the-control-ui) below.
 
 ## Requirements
 
@@ -68,14 +70,31 @@ reset the board to advertise again. The last running preset is saved to
 
 ## Run the control UI
 
+The browser UI lives in the
+[`rasppi-utils`](https://github.com/TravisBumgarner/rasppi-utils) repo. In
+production it runs as a systemd service on the Raspberry Pi; to serve it
+locally for development:
+
 ```bash
-./serve.sh   # serves web/ at http://localhost:8000
+git clone https://github.com/TravisBumgarner/rasppi-utils.git
+cd rasppi-utils/pixels64
+python3 -m venv .venv && source .venv/bin/activate
+pip install flask
+
+# the server stores its self-signed cert under /etc/rasppi-utils/pixels64,
+# so give yourself write access to that path once:
+sudo mkdir -p /etc/rasppi-utils/pixels64 && sudo chown "$USER" /etc/rasppi-utils/pixels64
+
+PORT=8443 python scripts/server.py
 ```
 
-Open <http://localhost:8000> in Chrome or Edge, click **+ Add device**, and pick
-your `Pixels64` board from the BLE chooser. You can add multiple boards. The UI
-provides a paintable 8×8 grid, color picker, fill/clear, brightness and FPS
-sliders, and the preset list.
+The server generates a self-signed cert on first run (HTTPS is required for the
+Web Bluetooth API), so the browser shows a one-time "not secure" warning.
+
+Open <https://localhost:8443> in Chrome or Edge (Safari does **not** support Web
+Bluetooth), click **+ Add device**, and pick your `Pixels64` board from the BLE
+chooser. You can add multiple boards. The UI provides a paintable 8×8 grid,
+color picker, fill/clear, brightness and FPS sliders, and the preset list.
 
 ## BLE protocol
 
