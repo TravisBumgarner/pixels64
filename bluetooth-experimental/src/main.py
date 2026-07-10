@@ -82,7 +82,11 @@ def fill(r, g, b):
 def save_active():
     try:
         with open(ACTIVE_FILE, "w") as f:
-            json.dump({"name": state["name"]}, f)
+            json.dump({
+                "name": state["name"],
+                "brightness": state["brightness"],
+                "tick_ms": state["tick_ms"],
+            }, f)
     except Exception as e:
         print("save_active err:", e)
 
@@ -162,6 +166,7 @@ def handle_command(buf):
     elif op == OP_BRIGHTNESS and len(buf) >= 2:
         state["brightness"] = buf[1] / 255
         write_np()
+        save_active()
     elif op == OP_BATCH and len(buf) >= 2:
         stop_animation()
         count = buf[1]
@@ -181,6 +186,7 @@ def handle_command(buf):
         if fps < 1: fps = 1
         if fps > 30: fps = 30
         state["tick_ms"] = 1000 // fps
+        save_active()
 
 
 _SVC_UUID = bluetooth.UUID("f64a0001-7e1e-4f0a-9b2d-1c3a5a8d2e10")
@@ -280,11 +286,17 @@ ble_on()
 clear()
 
 saved = load_active()
-if saved and saved.get("name") and saved["name"] != "off":
-    try:
-        start_preset_by_name(saved["name"], persist=False)
-    except Exception as e:
-        print("restore err:", e)
+if saved:
+    if saved.get("brightness") is not None:
+        state["brightness"] = saved["brightness"]
+    if saved.get("tick_ms"):
+        state["tick_ms"] = saved["tick_ms"]
+    name = saved.get("name")
+    if name and name != "off":
+        try:
+            start_preset_by_name(name, persist=False)
+        except Exception as e:
+            print("restore err:", e)
 
 while True:
     now = time.ticks_ms()
