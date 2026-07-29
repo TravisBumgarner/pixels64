@@ -16,9 +16,11 @@ not need to be anywhere near it.
 ## Running it locally
 
 ```sh
-python3 -m http.server -d web 8000
-# http://localhost:8000 — localhost counts as a secure context
+npm run dev     # http://localhost:8000 — localhost counts as a secure context
 ```
+
+No install step: `dev` is a one-line Python static server, and `package.json`
+exists to hold the release commands rather than any dependencies.
 
 ## Container image
 
@@ -27,7 +29,7 @@ python3 -m http.server -d web 8000
 `web-v*` tag.
 
 ```sh
-docker run --rm -p 8080:80 ghcr.io/travisbumgarner/pixels64-web:latest
+npm run build && npm run start     # build and run it locally
 ```
 
 Note that `http://localhost:8080` works but a LAN address like
@@ -36,9 +38,12 @@ deployment this sits behind a reverse proxy that terminates TLS.
 
 ## Publishing a new image
 
+Bump `version` in `package.json`, then:
+
 ```sh
-git tag web-v1.0.1 && git push origin web-v1.0.1
+npm run release
 ```
 
+That tags `web-v<version>` and pushes it, which is what the workflow builds on.
 Tags are prefixed `web-` so image releases don't collide with firmware or
 hardware versioning in this repo.

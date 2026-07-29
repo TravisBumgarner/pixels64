@@ -1,0 +1,3 @@
+# Only index.html belongs in the image. Everything else here is tooling or docs.
+*
+!index.html

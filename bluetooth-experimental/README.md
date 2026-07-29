@@ -23,10 +23,9 @@ bluetooth-experimental/
 └── upload.sh         # flash src/*.py to the board via mpremote
 ```
 
-This directory holds only the ESP32 firmware. The Web Bluetooth control UI
-that drives the board lives in the separate
-[`rasppi-utils`](https://github.com/TravisBumgarner/rasppi-utils) repo, under
-`pixels64/` — see [Run the control UI](#run-the-control-ui) below.
+This directory holds only the ESP32 firmware. The Web Bluetooth control UI that
+drives the board lives in [`../web`](../web) — see
+[Run the control UI](#run-the-control-ui) below.
 
 ## Requirements
 
@@ -70,28 +69,19 @@ reset the board to advertise again. The last running preset is saved to
 
 ## Run the control UI
 
-The browser UI lives in the
-[`rasppi-utils`](https://github.com/TravisBumgarner/rasppi-utils) repo. In
-production it runs as a systemd service on the Raspberry Pi; to serve it
-locally for development:
+The browser UI lives in [`../web`](../web). It's a single static file, so
+serving it locally needs no toolchain:
 
 ```bash
-git clone https://github.com/TravisBumgarner/rasppi-utils.git
-cd rasppi-utils/pixels64
-python3 -m venv .venv && source .venv/bin/activate
-pip install flask
-
-# the server stores its self-signed cert under /etc/rasppi-utils/pixels64,
-# so give yourself write access to that path once:
-sudo mkdir -p /etc/rasppi-utils/pixels64 && sudo chown "$USER" /etc/rasppi-utils/pixels64
-
-PORT=8443 python scripts/server.py
+cd web
+npm run dev
 ```
 
-The server generates a self-signed cert on first run (HTTPS is required for the
-Web Bluetooth API), so the browser shows a one-time "not secure" warning.
+`localhost` counts as a secure context, which the Web Bluetooth API requires —
+no certificate needed. A LAN address would not work; in production the page sits
+behind a reverse proxy that terminates TLS.
 
-Open <https://localhost:8443> in Chrome or Edge (Safari does **not** support Web
+Open <http://localhost:8000> in Chrome or Edge (Safari does **not** support Web
 Bluetooth), click **+ Add device**, and pick your `Pixels64` board from the BLE
 chooser. You can add multiple boards. The UI provides a paintable 8×8 grid,
 color picker, fill/clear, brightness and FPS sliders, and the preset list.

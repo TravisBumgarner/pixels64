@@ -1,0 +1,12 @@
+{
+  "name": "pixels64-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Web Bluetooth control UI for the Pixels64 display",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "build": "docker build -t pixels64-web:local .",
+    "start": "docker run --rm -p 8080:80 pixels64-web:local",
+    "release": "git tag web-v$npm_package_version && git push origin web-v$npm_package_version"
+  }
+}
